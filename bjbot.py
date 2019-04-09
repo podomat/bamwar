@@ -14,6 +14,7 @@ import random
 from time import sleep
 import re
 import logging
+import os
 
 
 class bjbot:
@@ -404,6 +405,9 @@ class bjbot:
 		ch = logging.StreamHandler(sys.stdout)
 		ch.setFormatter(formatter)
 		self.log.addHandler(ch)
+		
+		if not (os.path.isdir('logs')):
+			os.makedirs(os.path.join('logs'))
 		
 		fh = logging.FileHandler('logs/{0}.log'.format(log_name), encoding = "UTF-8")
 		fh.setFormatter(formatter)
