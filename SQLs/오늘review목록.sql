@@ -1,0 +1,1 @@
+select * from reviews where posted_at > now() - interval 1 day order by posted_at desc

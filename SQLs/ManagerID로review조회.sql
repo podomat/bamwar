@@ -1,0 +1,1 @@
+select * from reviews where manager_id = 85

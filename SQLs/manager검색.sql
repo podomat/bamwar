@@ -1,0 +1,1 @@
+select s.name as shop, m.* from managers m, shops s where s.id = m.shop_id and m.name = '수지'

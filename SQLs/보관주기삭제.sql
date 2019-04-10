@@ -1,0 +1,1 @@
+delete from reviews where posted_at < now() - interval 90 day

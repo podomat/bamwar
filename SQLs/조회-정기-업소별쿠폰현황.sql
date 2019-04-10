@@ -1,0 +1,1 @@
+select * from re_shops where name = '강남 방앗간'

@@ -1,0 +1,1 @@
+select * from re_applicants where user_id = 'nobody'

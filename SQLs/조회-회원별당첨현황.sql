@@ -1,0 +1,1 @@
+select * from coupon_winning where user_id = 'akihide'

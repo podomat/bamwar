@@ -1,0 +1,1 @@
+select m.* from managers m, shops s where s.id = m.shop_id and s.id = 724
