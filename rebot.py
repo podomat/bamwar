@@ -23,7 +23,7 @@ class rebot(bjbot.bjbot):
 		self.rb_comt_num = 0
 		self.eb_comt_num = 0
 		
-		self.check_month = 2
+		self.check_month = 4
 
 	def regevt_get_comment_item(self, contents, item, mark):
 		if item in contents:
@@ -114,28 +114,31 @@ class rebot(bjbot.bjbot):
 			#self.log.info(contents)
 			#self.log.info(' ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----')
 			
-			contents = contents.replace('&nbsp;',' ').replace('&amp;','&').replace('[',' [').replace('.','. ').replace(' (','(').replace(':',': ').replace(']','] ').replace(',',' ').replace(';',' ').replace('ᆞ',' ')
+			contents = contents.replace('&nbsp;',' ').replace('&amp;','&').replace('[',' [').replace('.','. ').replace(' (','(').replace(')',') ').replace(':',': ').replace(']','] ').replace(',',' ').replace(';',' ').replace('ᆞ',' ').replace('-',' ')
 			contents = contents.replace('1 :','1 .').replace('2 :','2 .').replace('3 :','3 .').replace('맥심','MAXIM').replace('매직미러풀(신세경','매직미러(예쁜신세경').replace('스폐셜K','스페셜K')
-			contents = contents.replace('닉네임', ' 닉네임').replace(' 실장', '실장').replace('(오피)', ' [오피]').replace('(안마)', ' [안마]')
-			contents = contents.replace('(풀싸롱)', ' [풀싸롱]').replace('예쁜 ', '예쁜').replace('부천 A ', '부천 A스파 ').replace('MC ', 'MC스파 ')
-			contents = contents.replace('동물놀장', '동물농장').replace('강남 맛집', '강남맛집').replace('레드볼', '레드불').replace('카이 ', '카이스파')
-			contents = contents.replace('당산M스파', '당산 M스파').replace('서초', '서초 ').replace('토끼와 ', '토끼와').replace('옛지', '엣지').replace('왕과비 ', '왕과비(하지원대표) ')
-			contents = contents.replace('강남 씨티', '강남 시티').replace('하지원 대표', '하지원대표').replace(' 미러풀', '미러풀').replace('드라 마', '드라마')
-			contents = contents.replace('라페스파', '라페스타').replace('인부천', '인천').replace('시티', ' 시티').replace('좋은날 ', '좋은날(이연수사장)')
+			contents = contents.replace('아이다', '아이디').replace('닉네임', ' 닉네임').replace(' 실장', '실장').replace('(오피)', ' [오피]').replace('(안마)', ' [안마]')
+			contents = contents.replace('닉네님','닉네임').replace('지망:','.')
+			contents = contents.replace('일산', '일산 ').replace('사당', '사당 ').replace('분당', '분당 ').replace('상봉', '상봉 ').replace('잠실', '잠실 ').replace('답십리', '답십리 ')
+			contents = contents.replace('강남', '강남 ').replace('부천', '부천 ').replace('도봉', '도봉 ').replace('노원', '노원 ').replace('송탄', '송탄 ').replace('동탄', '동탄 ')
+			contents = contents.replace('  ', ' ')
+			contents = contents.replace('(풀싸롱)', ' [풀싸롱]').replace('예쁜 ', '예쁜').replace('부천 A ', '부천 A스파 ').replace('MC ', 'MC스파 ').replace('BMT ', 'BMT편의점 ')
+			contents = contents.replace('애ᄑᆕᆯ', '애플').replace('야구장 ', '야구장(윤대표) ').replace('논현 진주', '논현진주').replace(' 대표', '대표')
+			contents = contents.replace('수원 과일가게', '수원 과일과게').replace('오솔로', '오슬로').replace('분당 RM', '부천 RM').replace('시흥 MAXIM', '시흥 맥심')
+			contents = contents.replace('썬웨이노래광장 ', '썬웨이노래광장(이태수대표) ').replace('17%스타킹 ', '17%스타킹(원섭대표) ').replace('지중해 ', '지중해(키티실장) ')
+			contents = contents.replace('치파오 ', '치파오시즌2 ').replace('왕과비(하지원)','왕과비(하지원대표)').replace('헤라','혜라').replace('방앗간휴게텔','방앗간 [휴게텔')
+			contents = contents.replace('인천 JYP','부평 JYP').replace('인천 퍼플', '부평 퍼플').replace('맨투맨 ','맨투맨안마 ').replace('1%발렌타인 ','1%발렌타인(금나라실장) ')
+			contents = contents.replace('논현 진주','논현진주').replace('1프로', '1%').replace('수원 MAXIM', '수원 맥심').replace('홍대요정', '홍대 요정')
+			contents = contents.replace('미러초이스 ','미러초이스(예쁜제니실장) ').replace('강남 후시딘', '선릉 후시딘').replace('부천 A ', '부천 A스파 ').replace('팡팡스파', '팡팡')
+			contents = contents.replace('당산 M ', '당산 M스파 ').replace('스파르타 ', '스파르타스파 ').replace('란제리 ','란제리셔츠룸(초아실장) ').replace('강남 맛집', '강남맛집')
+			contents = contents.replace('강남 씨티', '강남 CT').replace('강남 씨티', '강남 CT').replace('살아있네 ','살아있네(이연수사장) ').replace('강남 강남맛','역삼 강남맛')
+			contents = contents.replace('프린스 ','프린스(김종국대표) ').replace('MAXIM걸','맥심걸').replace('구리 G ', '구리 Gspa ').replace('치파오2','치파오시즌2')
+			contents = contents.replace('분덩여자','분당 여자').replace('1% 발렌타인','1%발렌타인').replace('원섭상무','원섭대표').replace('심쿵','심쿨').replace('인천 엄지척','부평 엄지척')
+			contents = contents.replace('남영주','남양주').replace('남양주.','남양주').replace('강맘', '강남').replace('ct','CT').replace('꿀 ','꿀스파 ').replace('배아래 민족','배아래민족')
 			
-			contents = contents.replace('-', ' ').replace('분당', '분당 ').replace('데쟈뷰', '데자뷰').replace('당산m스파', '당산 M스파').replace('방앗간', ' 방앗간').replace('붕가붕가', ' 붕가붕가').replace('홍시', ' 홍시')
-			contents = contents.replace('스파르타 ', '스파르타스파 ').replace('스파르타스타', '스파르타스파').replace(' 팀장', '팀장').replace(' 사장', '사장').replace('붕가붕가', ' 붕가붕가').replace('홍시', ' 홍시').replace('직빵 ', '직빵10 ')
-			contents = contents.replace('강남 다이아', '강서 다이아').replace('수원', '수원 ').replace('강남매직', '강남 매직').replace('이수MAXIM', '이수 MAXIM').replace('강서', '강서 ')
-			
-			contents = contents.replace('누들누들 ', '누들누들(원섭상무) ').replace('(건마)', ' [건마]').replace('강남 러시아메딕', '역삼 러시아메딕').replace('사정의 ', '사정의').replace('건대 로얄스파', '건대 로얄SPA')
-			contents = contents.replace('Z스파', ' Z스파').replace('진주스파', ' 진주스파').replace('띵똥', '띵동').replace('아아디', '아이디').replace('아이다', '아이디')
-			contents = contents.replace('지망', ' ').replace('아이디 .', '아이디').replace('구로', '구로 ').replace('BMT', ' BMT').replace('강남 야구장 ', '강남 야구장(김하늘팀장) ')
-			contents = contents.replace('닉내임', '닉네임').replace('강서.', '강서').replace('대전체어맨', '대전 체어맨').replace('블루스파', '블루피쉬').replace('부천', '부천 ')
-			contents = contents.replace('Thebloned', 'TheBlonde').replace('닉넴', '닉네임').replace('부천v', '부천 V').replace('선릉', '선릉 ').replace('신림', '신림 ').replace('벅시스파', '벅시')
-			contents = contents.replace('강남 매직미러(이쁜유이실장)', '강남 매직미러야구장(이쁜유이실장)').replace('부천 미스파', '부천 美스파').replace('시그널(시그널대표)', '시그널').replace('부천  미스파', '부천 美스파')
-			
+			'''
 			p = re.compile('야구장.*?송혜교실장[)]')
 			contents = p.sub('야구장(송혜교실장)', contents)
+			'''
 			p = re.compile('<p.*?>')
 			contents = p.sub('\n', contents)
 			p = re.compile('<span.*?>')
@@ -236,18 +239,19 @@ class rebot(bjbot.bjbot):
 			
 			if (index < 3): continue
 			
+			'''
 			change = tr.find_all('td')[0].get_text().strip()
 			if (change == '취소'): continue
+			'''
 			
-			
-			name = tr.find_all('td')[1].get_text().strip()
-			region = tr.find_all('td')[2].get_text().strip()
-			category = tr.find_all('td')[3].get_text().strip()
+			name = tr.find_all('td')[0].get_text().strip()
+			region = tr.find_all('td')[1].get_text().strip()
+			category = tr.find_all('td')[2].get_text().strip()
 			cost_coupon = tr.find_all('td')[4].get_text().strip()
 			if (cost_coupon == '') : cost_coupon = 0
 			free_coupon = tr.find_all('td')[5].get_text().strip()
 			if (free_coupon == '') : free_coupon = 0
-			option = tr.find_all('td')[6].get_text().strip()
+			option = tr.find_all('td')[3].get_text().strip()
 			
 			self.log.info('[{6}] {0} / {1} / {2} / {3} / {4} / {5}'.format(name, region, category, option, cost_coupon, free_coupon, index-2))
 			db.add_regular_event_shop(name, region, category, option, cost_coupon, free_coupon)
@@ -390,6 +394,7 @@ class rebot(bjbot.bjbot):
 						break
 				
 				else:
+					if (date == None or date == ''): continue
 					if (date[2] == ':'): continue
 					
 					if (int(date[5:7]) == month):

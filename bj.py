@@ -114,8 +114,8 @@ if __name__ == '__main__':
 		# bot.regevt_get_shops('/bbs/board.php?bo_table=300030&wr_id=12304153&cpage=1#cs') # 18년 9월
 		# bot.regevt_get_shops('/bbs/board.php?bo_table=300030&wr_id=12979305&cpage=1#cs') # 18년 10월
 		# bot.regevt_get_shops('/bbs/board.php?bo_table=300030&wr_id=13721030&cpage=1#cs') # 18년 11월
-		bot.regevt_get_shops('/bbs/board.php?bo_table=300030&wr_id=16755874&cpage=1#cs',
-		'https://docs.google.com/spreadsheets/d/e/2PACX-1vQS7FJJ1JNIgXtdTyMf0XCRTjUwDGVdQrYI1z-WIzDh_m1YxEp2xz7Z37okFXEDbQf3seN6upSEQUdH/pubhtml')
+		bot.regevt_get_shops('/bbs/board.php?bo_table=300030&wr_id=18191739&cpage=1#cs',
+		'https://docs.google.com/spreadsheets/d/e/2PACX-1vRQSnltdgyU_yiZE_QP3L-v-su2N6sk4yPljF7RiavxFvo0uXfj2nC12q1hqzPjD8OvUbqQT5KwUZ98/pubhtml?gid=0&single=true')
 		
 	elif (command == 'usg'):
 		if (len(sys.argv) != 4):
