@@ -1014,6 +1014,16 @@ class bjbot:
 						self.log.info('   >> Job complete (simple)')
 						completed = True
 						break
+
+				# 후방주의 게시글에 이미지가 없으면 skip
+				if(category == u'후방주의'):
+					bonmun = review_page_soup.find('div', {'id':'article-content'})
+					#self.log.info(bonmun)
+					img_list = bonmun.find_all('img')
+					if len(img_list) == 0:
+						self.log.info('   >> Skip this post, reason= "There is no images"')
+						continue
+					self.log.info('   >> There is at least one image"')
 						
 				if(index>1):
 					sleep(8)
