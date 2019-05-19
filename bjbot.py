@@ -873,6 +873,7 @@ class bjbot:
 		completed = False
 		started = True
 		last_wr_id = 0
+		sequence_of_my_comment = 0
 		
 		self.close_log()
 		self.init_log('FREEBOARD')
@@ -980,7 +981,8 @@ class bjbot:
 						
 					except UnexpectedAlertPresentException:
 						self.log.info('   >> Loading Error (UnexpectedAlertPresentException): {0}'.format(link))
-						self.reset()
+						self.driver.switch_to_alert().accept()
+						#self.reset()
 						continue
 						
 					except Exception as e:
@@ -1006,14 +1008,19 @@ class bjbot:
 				
 				# 나의 댓글이 이미 존재하는지 확인해서 없는 경우만 수행
 				if(self.is_there_my_comment(review_page_soup) == True):
-					self.log.info('   >> Skip this post, reason= "There is already my comment"')
-				
+					sequence_of_my_comment = sequence_of_my_comment + 1
+					self.log.info('   >> Skip this post, reason= "There is already my comment. Sequential number: {0}"'.format(sequence_of_my_comment))
 					if (fullscan == True):
 						continue
 					else: 
-						self.log.info('   >> Job complete (simple)')
-						completed = True
-						break
+						if (sequence_of_my_comment >= 5): # 나의 댓글이 연속 5회 이상 발견되면 중단
+							self.log.info('   >> Job complete (simple)')
+							completed = True
+							break
+						else:
+							continue
+				else:
+					sequence_of_my_comment = 0
 
 				# 후방주의 게시글에 이미지가 없으면 skip
 				if(category == u'후방주의'):
