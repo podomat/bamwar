@@ -199,8 +199,8 @@ class bjbot:
 		self.webdriver_path = '..\chromedriver\chromedriver'
 		self.driver = None
 			
-		self.bj_url_prefix = 'http://www.bamwar13.net'
-		#self.bj_url_prefix = 'http://www.bamwar30.com'
+		self.bj_url_prefix = 'http://www.bamwar15.net'
+		#self.bj_url_prefix = 'http://www.bamwar31.com'
 		self.comment_alert = u''
 		self.page_loading_timeout_sec = 90
 		
