@@ -199,7 +199,8 @@ class bjbot:
 		self.webdriver_path = '..\chromedriver\chromedriver'
 		self.driver = None
 			
-		self.bj_url_prefix = 'http://www.bamwar15.net'
+		self.bj_url_prefix = 'http://www.clubttt.net'
+		#self.bj_url_prefix = 'http://www.bamwar15.net'
 		#self.bj_url_prefix = 'http://www.bamwar31.com'
 		self.comment_alert = u''
 		self.page_loading_timeout_sec = 90
@@ -254,9 +255,9 @@ class bjbot:
 	# 로그인
 	def login(self):
 		login_url = self.bj_url_prefix + '/bbs/login.php'
-		id_elem_id = 'mb_id'
-		pw_elem_id = 'mb_password'
-		login_button_xpath = '//*[@id="inputset"]/button'
+		id_elem_id = 'txt_userid'
+		pw_elem_id = 'txt_userpw'
+		login_button_xpath = '//*[@id="btn_login"]/img'
 		
 		self.driver.get(login_url)
 		self.driver.find_element_by_id(id_elem_id).send_keys(self.bj_id)
@@ -895,7 +896,8 @@ class bjbot:
 			self.log.info('Loading... {0}'.format(list_url))
 			html = self.driver.page_source
 			soup = BeautifulSoup(html, 'html.parser')
-			article_list = soup.find_all('tr', {'class':'post-item'})
+			#article_list = soup.find_all('tr', {'class':'post-item'})
+			article_list = soup.find('div', {'id':'board_list'}).find('table').find('tbody').find_all('tr')
 			if(len(article_list)==0):
 				break
 			
@@ -908,6 +910,7 @@ class bjbot:
 				link = '{0}/bbs/{1}'.format(self.bj_url_prefix, article.find('a', {'class':'link_subject'})['href'])
 				wr_id = self.get_qrystr_attr_val(link, 'wr_id')
 				category = self.get_category(article)
+				self.log.info(u'{} {} {}'.format(link, wr_id, category))
 				writer = self.get_writer(article)
 				rank = self.get_rank(article)
 				title = ' '.join(x for x in article.find('a', {'class':'link_subject'}).get_text().strip().split('\xa0'))
