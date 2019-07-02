@@ -283,7 +283,7 @@ class bjbot:
 	# 게시물 목록에서 지정된 게시물의 등록일 추출
 	def get_regidate(self, soup):
 		#self.log.info(soup)
-		regidate = soup.find('td', {'class':'time_cell'}).string
+		regidate = soup.find_all('td')[5].string
 		return regidate
 		
 	
@@ -299,7 +299,7 @@ class bjbot:
 		
 	# 게시물 목록에서 지정된 게시물의 번호 추출
 	def get_post_num(self, soup):
-		num = soup.find('td', {'class':'num'}).string
+		num = soup.find('td').string
 		return num
 		
 		
@@ -412,28 +412,30 @@ class bjbot:
 		
 	def get_rank_for_image(self, image_url):
 		ranks = {
-			'/img/level/m1.png' : '훈련병',
-			'/img/level/m2.png' : '1급병',
-			'/img/level/m3.png' : '2급병',
-			'/img/level/m4.png' : '3급병',
-			'/img/level/m5.png' : '4급병',
-			'/img/level/m6.png' : '5급병',
-			'/img/level/m7.png' : '6급병',
-			'/img/level/m8.png' : '7급병',
-			'/img/level/m9.png' : '8급병',
-			'/img/level/m10.png' : '9급병',
-			'/img/level/m11.png' : '1성장교',
-			'/img/level/m12.png' : '2성장교',
-			'/img/level/m13.png' : '3성장교',
-			'/img/level/m14.png' : '4성장교',
-			'/img/level/m15.png' : '5성장교',
-			'/img/level/m16.png' : '장군',
-			'/img/level/m17.png' : '대장군',
-			'/img/level/m18.png' : '사령관',
+			'/static/img/level/m/lv1.gif' : '훈련병',
+			'/static/img/level/m/lv2.gif' : '1급병',
+			'/static/img/level/m/lv3.gif' : '2급병',
+			'/static/img/level/m/lv4.gif' : '3급병',
+			'/static/img/level/m/lv5.gif' : '4급병',
+			'/static/img/level/m/lv6.gif' : '5급병',
+			'/static/img/level/m/lv7.gif' : '6급병',
+			'/static/img/level/m/lv8.gif' : '7급병',
+			'/static/img/level/m/lv9.gif' : '8급병',
+			'/static/img/level/m/lv10.gif' : '9급병',
+			'/static/img/level/m/lv11.gif' : '1성장교',
+			'/static/img/level/m/lv12.gif' : '2성장교',
+			'/static/img/level/m/lv13.gif' : '3성장교',
+			'/static/img/level/m/lv14.gif' : '4성장교',
+			'/static/img/level/m/lv15.gif' : '5성장교',
+			'/static/img/level/m/lv16.gif' : '장군',
+			'/static/img/level/m/lv17.gif' : '대장군',
+			'/static/img/level/m/lv18.gif' : '사령관',
 			'/img/level/m19.png' : '군의관',
 			'/img/level/f19.png' : '간호장교',
 			'/img/level/m20.png' : '총사령관',
-			'/img/level/m21.png' : '원수'
+			'/img/level/m21.png' : '원수',
+			'/static/img/level/m/lv94.gif' : '실장'
+			'/static/img/level/m/lv99.gif' : '운영자'
 		}
 		
 		try:
@@ -490,7 +492,7 @@ class bjbot:
 		
 	# 게시물 목록의 글제목에서 글쓴이 닉네임 추출
 	def get_writer(self, soup):
-		writer = soup.find('td', {'class':'name'}).get_text().strip()
+		writer = soup.find('a', {'class':'uname usr_hp_normal'}).get_text().strip()
 		return writer
 		
 		
@@ -504,8 +506,10 @@ class bjbot:
 
 	# 게시물 목록에서 계급 이름 추출
 	def get_rank(self, soup):
-		img_list = soup.find_all('img')
-		rank_image = img_list[len(img_list)-1]['src']
+		rank_image = soup.find_all('td')[3].find('img')
+		if rank_image == None: return None
+		rank_image = rank_image['src'].split('?')[0]
+		self.log.info('rank_image: {}'.format(rank_image))
 		return self.get_rank_for_image(rank_image)
 				
 	
@@ -910,7 +914,6 @@ class bjbot:
 				link = '{0}/bbs/{1}'.format(self.bj_url_prefix, article.find('a', {'class':'link_subject'})['href'])
 				wr_id = self.get_qrystr_attr_val(link, 'wr_id')
 				category = self.get_category(article)
-				self.log.info(u'{} {} {}'.format(link, wr_id, category))
 				writer = self.get_writer(article)
 				rank = self.get_rank(article)
 				title = ' '.join(x for x in article.find('a', {'class':'link_subject'}).get_text().strip().split('\xa0'))
