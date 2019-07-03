@@ -345,20 +345,22 @@ class bjbot:
 	
 	# 댓글 중에 내가 작성한 댓글이 있는지 확인
 	def is_there_my_comment(self, soup):
-		comment_list = soup.find_all('li', {'class':'comment_row depth0'})
+		comment_list = soup.find_all('div', {'class':'comment depth0'})
 		
 		if (len(comment_list) == 0):
-			#self.log.info('There is no comment')
+			self.log.info('There is no comment')
 			return False
 			
 		for comment in comment_list:
-			name = comment.find('div', {'class':'writer'}).get_text().strip()
+			name = comment.find('a', {'class':'uname usr_hp_normal'})
+			if name == None: return False
+			name = name.get_text().strip()
 			if(name == None):
 				self.log.info("name is None, {0}".format(comment_list))
 				return False
 				
 			if (name[:len(self.bj_name)] == self.bj_name) :
-				#self.log.info('There is already my comment')
+				self.log.info('There is already my comment')
 				return True
 		
 		return False
@@ -366,15 +368,13 @@ class bjbot:
 		
 	# 게시물 페이지(link)를 열고 랜덤하게 댓글 작성.
 	def write_comment(self, soup, category, name):
-		#writer = soup.find('div', {'class':'article_head'}).find('span', {'class':'member'}).get_text()
-		#message = u'{0}님, {1}'.format(writer, self.comments[category][random.randrange(0,len(self.comments[category])-1)])
 		message = self.comments[category][random.randrange(0,len(self.comments[category])-1)]
 		if (name != None):
 			message = name + ' ' + message
 		self.log.info('   >> [ADD Comment]: {0}'.format(message))
 		
 		try:
-			self.driver.switch_to_frame(self.driver.find_element_by_css_selector('#mw_basic_comment_write_form > form > table > tbody > tr > td:nth-child(1) > div.cheditor-container > div.cheditor-editarea-wrapper > iframe'))
+			self.driver.switch_to_frame(self.driver.find_element_by_css_selector('#mw_basic_comment_write_form > div.row > div.cheditor-container > div.cheditor-editarea-wrapper > iframe'))
 		except Exception as e:
 			print(e)
 			return 100
@@ -382,16 +382,16 @@ class bjbot:
 		comment_box = self.driver.find_element_by_tag_name('body')
 		comment_box.send_keys(message)
 		self.driver.switch_to_default_content()
-		#self.driver.find_element_by_xpath('//*[@id="btn_comment_submit"]').click()
 		try:
-			self.driver.find_element_by_id('btn_comment_submit').click()
+			#self.driver.find_element_by_id('btn_comment_submit').click()
+			self.driver.find_element_by_id('btn_comment_submit').send_keys(webdriver.common.keys.Keys.SPACE)
 		except TimeoutException:
 			self.log.info('   >> Add Comment Timeout')
 			self.reset()
 			
 		return 0
-		
-		
+
+
 
 	# 댓글 작성시 alert 뜨는지 확인
 	def is_comment_alert(self):
@@ -434,7 +434,7 @@ class bjbot:
 			'/img/level/f19.png' : '간호장교',
 			'/img/level/m20.png' : '총사령관',
 			'/img/level/m21.png' : '원수',
-			'/static/img/level/m/lv94.gif' : '실장'
+			'/static/img/level/m/lv94.gif' : '실장',
 			'/static/img/level/m/lv99.gif' : '운영자'
 		}
 		
@@ -509,7 +509,6 @@ class bjbot:
 		rank_image = soup.find_all('td')[3].find('img')
 		if rank_image == None: return None
 		rank_image = rank_image['src'].split('?')[0]
-		self.log.info('rank_image: {}'.format(rank_image))
 		return self.get_rank_for_image(rank_image)
 				
 	
@@ -752,7 +751,7 @@ class bjbot:
 			self.log.info('   >> Skip this post, reason= "There is already my comment."')
 			return
 				
-		contents = review_page_soup.find('td', {'id':'article-content-section'}).get_text()
+		contents = review_page_soup.find('div', {'class':'visit-body view_content view_content_sitename'}).get_text()
 		partner_name = self.get_partner_name(contents)
 			
 		while True:
@@ -860,7 +859,7 @@ class bjbot:
 	# 후기홍보글 본문에서 후기 링크 추출
 	def get_review_link_in_a_ad(self, page_soup):
 		link = None
-		bonmun = page_soup.find('div', {'id':'article-content'})
+		bonmun = page_soup.find('div', {'class':'visit-body view_content view_content_sitename'})
 		alist = bonmun.find_all('a')
 		for a in alist:
 			if (a['href'] != None):
@@ -966,7 +965,8 @@ class bjbot:
 				if(category == u'이벤트' or category == u'알림') :
 					#if(self.is_brood_mark(article) == True):
 					rank = self.get_rank(article)
-					if(rank != '군의관' and rank != '간호장교'):
+					#if(rank != '군의관' and rank != '간호장교'):
+					if(rank != '실장'):
 						self.log.info('   >> Skip this post, reason= "Not shop\'s staff"')
 						continue
 
@@ -1030,13 +1030,13 @@ class bjbot:
 
 				# 후방주의 게시글에 이미지가 없으면 skip
 				if(category == u'후방주의'):
-					bonmun = review_page_soup.find('div', {'id':'article-content'})
+					bonmun = review_page_soup.find('div', {'class':'visit-body view_content view_content_sitename'})
 					#self.log.info(bonmun)
 					img_list = bonmun.find_all('img')
 					if len(img_list) == 0:
 						self.log.info('   >> Skip this post, reason= "There is no images"')
 						continue
-					self.log.info('   >> There is at least one image"')
+					self.log.info('   >> There is at least one image')
 						
 				if(index>1):
 					sleep(8)
